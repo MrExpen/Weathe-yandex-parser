@@ -1,3 +1,4 @@
+import os
 import requests
 from bs4 import BeautifulSoup
 import openpyxl
@@ -6,7 +7,7 @@ URL = 'https://yandex.ru/pogoda/'
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36 OPR/68.0.3618.104 (Edition Yx 05)'}
 
 
-URL += input('city: ')
+URL += input('city(moscow, ulyanovsk, etc..): ')
 
 
 def get_html():
@@ -40,7 +41,7 @@ def save_to_xls(data, file_name='weather.xlsx'):
     for item in data:
         wb['Sheet'].append([item['time'], item['day_temp'], item['night_temp'], item['rainfall']])
     wb.save(file_name)
-
+    os.startfile(file_name)
 
 
 def main():
