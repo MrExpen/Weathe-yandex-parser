@@ -3,23 +3,19 @@ from bs4 import BeautifulSoup
 import openpyxl
 
 URL = 'https://yandex.ru/pogoda/'
-HEADERS = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36 OPR/68.0.3618.104 (Edition Yx 05)'}
+HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36 OPR/68.0.3618.104 (Edition Yx 05)'}
 
 
-# URL += input('county: ')
+URL += input('city: ')
 
 
 def get_html():
-    '''
     api = requests.get(URL, headers=HEADERS)
     if api.status_code == 200:
         return api.text
     print("error ocorupted")
     quit()
-    '''
-    with open('index.html', 'r', encoding='utf-8') as file:
-        return file.read()
+
 
 
 def parse_html():
@@ -39,12 +35,17 @@ def parse_html():
     return days
 
 def save_to_xls(data, file_name='weather.xlsx'):
-    pass
+    wb = openpyxl.Workbook()
+    wb['Sheet'].append(['time', 'day_temp', 'night_temp', 'rainfall'])
+    for item in data:
+        wb['Sheet'].append([item['time'], item['day_temp'], item['night_temp'], item['rainfall']])
+    wb.save(file_name)
+
 
 
 def main():
     days = parse_html()
-    
+    save_to_xls(days)
 
 
 if __name__ == '__main__':
